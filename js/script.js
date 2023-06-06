@@ -1,5 +1,5 @@
 import { GET } from "./utils/http.js";
-import { cE, qS, cityListGen, weatherGen } from "./utils/fn.js";
+import { cE, qS, cityListGen, weatherGen, creditsGen } from "./utils/fn.js";
 
 const cityList = [
   {
@@ -306,10 +306,14 @@ selectEl.addEventListener("change", (e) => {
 
   if (e.target.value !== "" && placeholder) {
     qS(".page").removeChild(placeholder);
-    GET(e.target.value).then((data) => qS(".page").append(weatherGen(data)));
+    GET(e.target.value).then((data) =>
+      qS(".page").insertBefore(weatherGen(data), qS("footer"))
+    );
   } else if (e.target.value !== "" && wrapperEl) {
     qS(".page").removeChild(wrapperEl);
-    GET(e.target.value).then((data) => qS(".page").append(weatherGen(data)));
+    GET(e.target.value).then((data) =>
+      qS(".page").insertBefore(weatherGen(data), qS("footer"))
+    );
   } else if (e.target.value === "") {
     const newPlaceholder = cE("p");
     newPlaceholder.className = "placeholder";
@@ -319,3 +323,8 @@ selectEl.addEventListener("change", (e) => {
     qS(".page").appendChild(newPlaceholder);
   }
 });
+
+// shows credits
+qS("footer").addEventListener("click", () =>
+  qS(".page").append(creditsGen(qS(".page")))
+);

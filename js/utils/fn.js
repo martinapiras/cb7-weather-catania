@@ -220,3 +220,37 @@ export const weatherGen = (cityData) => {
 
   return wrapperEl;
 };
+
+export const creditsGen = (parent) => {
+  const wrapperEl = cE("div");
+  const creditsEl = cE("div");
+  const credits1El = cE("p");
+  const credits2El = cE("p");
+  const credits3El = cE("p");
+  const credits4El = cE("p");
+
+  wrapperEl.className = "creditsModal";
+  creditsEl.className = "creditsWrapper";
+  credits1El.className = "credits";
+  credits1El.innerHTML =
+    'Dawn and sunset icons by <a href="https://www.wishforge.games/?ref=svgrepo.com" target="_blank">Wishforge.games</a> in CC Attribution License via <a href="https://www.svgrepo.com/" target="_blank">SVG Repo</a>';
+  credits2El.className = "credits";
+  credits2El.innerHTML =
+    'Clock icon by <a href="https://twitter.com/drvaneetthakur?ref=svgrepo.com" target="_blank">Vaneet Thakur</a> in CC Attribution License via <a href="https://www.svgrepo.com/" target="_blank">SVG Repo</a>';
+  credits3El.className = "credits";
+  credits3El.innerHTML =
+    'Location and drop icons by <a href="https://orchid.software/en/docs/icons/?ref=svgrepo.com" target="_blank">Orchid</a> in MIT License via <a href="https://www.svgrepo.com/" target="_blank">SVG Repo</a>';
+  credits4El.className = "credits";
+  credits4El.innerHTML =
+    'Wind icon by <a href="https://github.com/framework7io/framework7-icons?ref=svgrepo.com" target="_blank">Framework7io</a> in MIT License via <a href="https://www.svgrepo.com/" target="_blank">SVG Repo</a>';
+
+  creditsEl.append(credits1El, credits2El, credits3El, credits4El);
+  wrapperEl.appendChild(creditsEl);
+  wrapperEl.addEventListener("click", (e) => {
+    if (e.target.className === "creditsModal") {
+      parent.removeChild(wrapperEl);
+    }
+  });
+
+  return wrapperEl;
+};
