@@ -1,5 +1,5 @@
 import { GET } from "./utils/http.js";
-import { cE, qS, cityListGen } from "./utils/fn.js";
+import { cE, qS, cityListGen, weatherGen } from "./utils/fn.js";
 
 const cityList = [
   {
@@ -79,8 +79,8 @@ const cityList = [
   },
   {
     id: 16,
-    name: "Fiumefreddo",
-    value: "fiumefreddo",
+    name: "Fiumefreddo di Sicilia",
+    value: "fiumefreddo+di+sicilia",
   },
   {
     id: 17,
@@ -297,3 +297,25 @@ const cityList = [
 const selectEl = qS(".cities");
 
 cityList.forEach((city) => selectEl.append(cityListGen(city)));
+
+///// EVENTS /////
+// shows weather for selected city
+selectEl.addEventListener("change", (e) => {
+  const placeholder = qS(".placeholder");
+  const wrapperEl = qS(".widgetWrapper");
+
+  if (e.target.value !== "" && placeholder) {
+    qS(".page").removeChild(placeholder);
+    GET(e.target.value).then((data) => qS(".page").append(weatherGen(data)));
+  } else if (e.target.value !== "" && wrapperEl) {
+    qS(".page").removeChild(wrapperEl);
+    GET(e.target.value).then((data) => qS(".page").append(weatherGen(data)));
+  } else if (e.target.value === "") {
+    const newPlaceholder = cE("p");
+    newPlaceholder.className = "placeholder";
+    newPlaceholder.textContent =
+      "Please select a city to receive weather forecasts";
+    qS(".page").removeChild(wrapperEl);
+    qS(".page").appendChild(newPlaceholder);
+  }
+});

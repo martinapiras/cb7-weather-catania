@@ -1,5 +1,3 @@
-import { GET } from "./http.js";
-
 export const cE = (element) => document.createElement(element);
 export const qS = (element) => document.querySelector(element);
 
@@ -17,7 +15,7 @@ export const weatherGen = (cityData) => {
   const today = new Date();
   const wrapperEl = cE("div");
 
-  //   user info
+  //   user info   //
   const userInfoEl = cE("div");
   const cityInfoEl = cE("div");
   const locationIconEl = cE("div");
@@ -43,16 +41,13 @@ export const weatherGen = (cityData) => {
   clockImgEl.src = "./assets/clock.svg";
   clockImgEl.alt = "time";
   dateEl.className = "date";
-  datePEl.textContent =
-    today.getDate() +
-    "/" +
-    (parseInt(today.getMonth()) + 1) +
-    "/" +
-    today.getFullYear() +
-    ", " +
-    today.getHours() +
-    ":" +
-    today.getMinutes();
+  datePEl.textContent = today.toLocaleDateString([], {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   locationIconEl.appendChild(locationImgEl);
   cityNameEl.appendChild(cityNamePEl);
@@ -62,51 +57,84 @@ export const weatherGen = (cityData) => {
   dateInfoEl.append(clockIconEl, dateEl);
   userInfoEl.append(cityInfoEl, dateInfoEl);
 
-  // weather info
+  //   weather info   //
   const weatherInfoEl = cE("div");
   const weatherInfoMainEl = cE("div");
   const weatherTypeEl = cE("div");
+  const weatherIconContainerEl = cE("div");
   const weatherIconEl = cE("img");
   const weatherTypePEl = cE("p");
   const temperatureEl = cE("div");
   const temperatureMoreEl = cE("div");
+  const tempSeparatorEl = cE("p");
+  const tempSeparator2El = cE("p");
   const minTempEl = cE("p");
   const maxTempEl = cE("p");
   const feelsLikeEl = cE("p");
   const weatherMoreEl = cE("div");
+  const humidityWrapperEl = cE("div");
+  const humidityIconEl = cE("div");
+  const humidityImgEl = cE("img");
   const humidityEl = cE("p");
+  const windWrapperEl = cE("div");
+  const windIconEl = cE("div");
+  const windImgEl = cE("img");
   const windEl = cE("p");
 
   weatherInfoEl.className = "weatherInfo";
   weatherInfoMainEl.className = "weatherInfo__main";
   weatherTypeEl.className = "weatherType";
-  weatherIconEl.src = "./assets/sunrise.svg";
-  weatherIconEl.alt = "PLACEHOLDER";
-  weatherTypePEl.textContent = cityData.weather[0].description;
+  weatherIconContainerEl.className = "weatherIcon";
+  weatherIconEl.src = `https://openweathermap.org/img/wn/${cityData.weather[0].icon}@4x.png`;
+  weatherIconEl.alt = cityData.weather[0].description;
+  weatherTypePEl.textContent =
+    cityData.weather[0].description[0].toUpperCase() +
+    cityData.weather[0].description.substring(1);
   temperatureEl.className = "temperature";
   temperatureEl.textContent = parseInt(cityData.main.temp) + "°C";
   temperatureMoreEl.className = "temperature__more";
+  tempSeparatorEl.textContent = "|";
+  tempSeparator2El.textContent = "|";
   minTempEl.className = "temperature-min";
-  minTempEl.textContent = "Min: " + parseInt(cityData.main.temp_min) + "°C";
+  minTempEl.innerHTML = `Min: <br> ${parseInt(cityData.main.temp_min)}°C`;
   maxTempEl.className = "temperature-max";
-  maxTempEl.textContent = "Max: " + parseInt(cityData.main.temp_max) + "°C";
+  maxTempEl.innerHTML = `Max: <br> ${parseInt(cityData.main.temp_max)}°C`;
   feelsLikeEl.className = "temperature-feelsLike";
-  feelsLikeEl.textContent =
-    "Feels like: " + parseInt(cityData.main.feels_like) + "°C";
+  feelsLikeEl.innerHTML = `Feels like: <br> ${parseInt(
+    cityData.main.feels_like
+  )}°C`;
   weatherMoreEl.className = "weatherInfo__more";
-  humidityEl.className = "humidity";
-  humidityEl.textContent =
-    "Humidity: " + parseInt(cityData.main.humidity) + "%";
-  windEl.className = "wind";
-  windEl.textContent = "Wind: " + cityData.wind.speed + " km/h";
+  humidityWrapperEl.className = "humidity";
+  humidityIconEl.className = "humidityIcon";
+  humidityImgEl.src = "./assets/humidity.svg";
+  humidityImgEl.alt = "humidity";
+  humidityEl.textContent = `Humidity: ${parseInt(cityData.main.humidity)}%`;
+  windWrapperEl.className = "wind";
+  windIconEl.className = "windIcon";
+  windImgEl.src = "./assets/wind.svg";
+  windImgEl.alt = "wind";
+  windEl.textContent = `Wind: ${parseFloat(
+    (cityData.wind.speed * 3.6).toFixed(2)
+  )} km/h`;
 
-  weatherTypeEl.append(weatherIconEl, weatherTypePEl);
-  temperatureMoreEl.append(minTempEl, maxTempEl, feelsLikeEl);
+  weatherIconContainerEl.appendChild(weatherIconEl);
+  weatherTypeEl.append(weatherIconContainerEl, weatherTypePEl);
+  temperatureMoreEl.append(
+    minTempEl,
+    tempSeparatorEl,
+    maxTempEl,
+    tempSeparator2El,
+    feelsLikeEl
+  );
   weatherInfoMainEl.append(weatherTypeEl, temperatureEl, temperatureMoreEl);
-  weatherMoreEl.append(humidityEl, windEl);
+  humidityIconEl.appendChild(humidityImgEl);
+  humidityWrapperEl.append(humidityIconEl, humidityEl);
+  windIconEl.appendChild(windImgEl);
+  windWrapperEl.append(windIconEl, windEl);
+  weatherMoreEl.append(humidityWrapperEl, windWrapperEl);
   weatherInfoEl.append(weatherInfoMainEl, weatherMoreEl);
 
-  // sun info
+  //   sun info   //
   const sunInfoEl = cE("div");
   const sunriseEl = cE("div");
   const sunriseIconEl = cE("img");
@@ -114,30 +142,81 @@ export const weatherGen = (cityData) => {
   const sunsetEl = cE("div");
   const sunsetIconEl = cE("img");
   const sunsetTimeEl = cE("p");
-  const barEl = cE("hr");
+  const dividerEl = cE("div");
 
   sunInfoEl.className = "sunInfo";
   sunriseEl.className = "sunrise";
   sunriseIconEl.src = "./assets/sunrise.svg";
   sunriseIconEl.alt = "sunrise";
   sunriseTimeEl.className = "sunriseTime";
-  sunriseTimeEl.textContent = "PLACEHOLDER";
+  sunriseTimeEl.textContent = new Date(
+    cityData.sys.sunrise * 1000
+  ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   sunsetEl.className = "sunset";
   sunsetIconEl.src = "./assets/sunset.svg";
   sunsetIconEl.alt = "sunset";
   sunsetTimeEl.className = "sunsetTime";
-  sunsetTimeEl.textContent = "PLACEHOLDER";
+  sunsetTimeEl.textContent = new Date(
+    cityData.sys.sunset * 1000
+  ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  dividerEl.className = "divider";
 
   sunriseEl.append(sunriseIconEl, sunriseTimeEl);
   sunsetEl.append(sunsetIconEl, sunsetTimeEl);
 
-  sunInfoEl.append(sunriseEl, barEl, sunsetEl);
+  sunInfoEl.append(sunriseEl, dividerEl, sunsetEl);
+
+  // changes widget background based on current weather
+  const weatherIcon = cityData.weather[0].icon;
+  switch (weatherIcon) {
+    case "01d":
+      wrapperEl.style.backgroundImage = "url('../assets/bg/clear-sky-day.jpg')";
+      break;
+
+    case "01n":
+      wrapperEl.style.backgroundImage =
+        "url('../assets/bg/clear-sky-night.jpg')";
+      break;
+
+    case "02d":
+    case "03d":
+    case "04d":
+      wrapperEl.style.backgroundImage = "url('../assets/bg/clouds-day.jpg')";
+      break;
+
+    case "02n":
+    case "03n":
+    case "04n":
+      wrapperEl.style.backgroundImage = "url('../assets/bg/clouds-night.jpg')";
+      break;
+
+    case "09d":
+    case "09n":
+      wrapperEl.style.backgroundImage = "url('../assets/bg/drizzle.jpg')";
+      break;
+
+    case "10d":
+    case "10n":
+      wrapperEl.style.backgroundImage = "url('../assets/bg/rain.jpg')";
+      break;
+
+    case "11d":
+    case "11n":
+      wrapperEl.style.backgroundImage = "url('../assets/bg/thunderstorm.jpg')";
+      break;
+
+    case "13d":
+    case "13n":
+      wrapperEl.style.backgroundImage = "url('../assets/bg/snow.jpg')";
+      break;
+
+    case "50d":
+    case "50n":
+      wrapperEl.style.backgroundImage = "url('../assets/bg/7xx.jpg')";
+      break;
+  }
 
   wrapperEl.append(userInfoEl, weatherInfoEl, sunInfoEl);
 
   return wrapperEl;
 };
-
-qS(".page").removeChild(qS(".placeholder"));
-
-GET("Villacidro").then((data) => qS(".page").append(weatherGen(data)));
