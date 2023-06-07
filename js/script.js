@@ -306,12 +306,12 @@ selectEl.addEventListener("change", (e) => {
 
   if (e.target.value !== "" && placeholder) {
     qS(".page").removeChild(placeholder);
-    GET(e.target.value).then((data) =>
+    GET("weather", e.target.value).then((data) =>
       qS(".page").insertBefore(weatherGen(data), qS("footer"))
     );
   } else if (e.target.value !== "" && wrapperEl) {
     qS(".page").removeChild(wrapperEl);
-    GET(e.target.value).then((data) =>
+    GET("weather", e.target.value).then((data) =>
       qS(".page").insertBefore(weatherGen(data), qS("footer"))
     );
   } else if (e.target.value === "") {
@@ -320,7 +320,7 @@ selectEl.addEventListener("change", (e) => {
     newPlaceholder.textContent =
       "Please select a city to receive weather forecasts";
     qS(".page").removeChild(wrapperEl);
-    qS(".page").appendChild(newPlaceholder);
+    qS(".page").insertBefore(newPlaceholder, qS("footer"));
   }
 });
 
