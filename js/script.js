@@ -1,13 +1,6 @@
 import cityList from "./cityList.js";
 import { GET } from "./utils/http.js";
-import {
-  cE,
-  qS,
-  cityListGen,
-  weatherGen,
-  creditsGen,
-  aqiModalGen,
-} from "./utils/fn.js";
+import { cE, qS, cityListGen, weatherGen, creditsGen } from "./utils/fn.js";
 
 const selectEl = qS(".cities");
 

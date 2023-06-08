@@ -164,9 +164,9 @@ export const weatherGen = (cityData) => {
   weatherInfoEl.append(weatherInfoMainEl, weatherMoreEl);
 
   // shows AQI info //
-  // aqiWrapperEl.addEventListener("click", () =>
-  //   qS(".page").append(aqiModalGen(cityData))
-  // );
+  aqiWrapperEl.addEventListener("click", () =>
+    qS(".page").append(aqiModalGen(cityData, qS(".page")))
+  );
 
   //   sun info   //
   const sunInfoEl = cE("div");
@@ -293,25 +293,71 @@ export const creditsGen = (parent) => {
   return wrapperEl;
 };
 
-export const aqiModalGen = (cityData) => {
+export const aqiModalGen = (cityData, parent) => {
+  const overlayEl = cE("div");
   const wrapperEl = cE("div");
   const titleEl = cE("p");
+  const value = cityData[1].list[0].main.aqi;
   const valueEl = cE("h3");
   const descriptionEl = cE("p");
   const valuesWrapperEl = cE("div");
   const disclaimerEl = cE("p");
 
+  overlayEl.className = "aqiOverlay";
   wrapperEl.className = "aqiModal";
   titleEl.className = "aqiModal__title";
   titleEl.textContent = "Air Quality Index (AQI)";
   valueEl.className = "aqiModal__aqi";
-  valueEl.textContent = cityData[1].list[0].main.aqi;
+  valueEl.textContent = value;
   descriptionEl.className = "aqiModal__description";
   valuesWrapperEl.className = "aqiModal__values";
   disclaimerEl.className = "aqiModal__disclaimer";
-  disclaimerEl.textContent = " *Pollutant concentration expressed in μg/m3.";
+  disclaimerEl.textContent = "*Concentration expressed in μg/m3.";
 
-  // valuesWrapperEl.append(pollutantsGen());
+  switch (value) {
+    case 1:
+      descriptionEl.textContent = "Good";
+      break;
+
+    case 2:
+      descriptionEl.textContent = "Fair";
+      break;
+
+    case 3:
+      descriptionEl.textContent = "Moderate";
+      break;
+
+    case 4:
+      descriptionEl.textContent = "Poor";
+      break;
+
+    case 5:
+      descriptionEl.textContent = "Very Poor";
+      break;
+  }
+
+  const pollutants = cityData[1].list[0].components;
+  console.log(pollutants);
+  const pollutantsArr = [{}, {}, {}, {}, {}, {}, {}, {}];
+
+  Object.assign(pollutantsArr[0], { name: "CO" }, { value: pollutants.co });
+  Object.assign(pollutantsArr[1], { name: "NO2" }, { value: pollutants.no2 });
+  Object.assign(pollutantsArr[2], { name: "NO" }, { value: pollutants.no });
+  Object.assign(pollutantsArr[3], { name: "O3" }, { value: pollutants.o3 });
+  Object.assign(pollutantsArr[4], { name: "SO2" }, { value: pollutants.so2 });
+  Object.assign(
+    pollutantsArr[5],
+    { name: "PM2.5" },
+    { value: pollutants.pm2_5 }
+  );
+  Object.assign(pollutantsArr[6], { name: "PM10" }, { value: pollutants.pm10 });
+  Object.assign(pollutantsArr[7], { name: "NH3" }, { value: pollutants.nh3 });
+
+  console.log(pollutantsArr);
+
+  pollutantsArr.forEach((pollutant) =>
+    valuesWrapperEl.append(pollutantsGen(pollutant))
+  );
   wrapperEl.append(
     titleEl,
     valueEl,
@@ -319,6 +365,30 @@ export const aqiModalGen = (cityData) => {
     valuesWrapperEl,
     disclaimerEl
   );
+  overlayEl.appendChild(wrapperEl);
 
-  return wrapperEl;
+  overlayEl.addEventListener("click", (e) => {
+    if (e.target.className === "aqiOverlay") {
+      parent.removeChild(overlayEl);
+    }
+  });
+
+  return overlayEl;
+};
+
+const pollutantsGen = (data) => {
+  const valueWrapperEl = cE("div");
+  const pollutantNumberEl = cE("p");
+  const pollutantNameEl = cE("p");
+
+  valueWrapperEl.className = "aqiModal__value";
+  pollutantNumberEl.className = "pollutant__number";
+  pollutantNumberEl.textContent = parseFloat(data.value).toFixed(2);
+  pollutantNameEl.className = "pollutant__name";
+  pollutantNameEl.textContent = data.name;
+
+  valueWrapperEl.append(pollutantNumberEl, pollutantNameEl);
+
+  return valueWrapperEl;
+  // }
 };

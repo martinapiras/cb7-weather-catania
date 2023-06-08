@@ -241,11 +241,12 @@ h1 {
 }
 
 /* AQI modal */
+
 .aqiModal {
-  border: 2px solid red;
   width: 90%;
-  height: 40%;
+  height: fit-content;
   background-color: white;
+  box-shadow: 0 0 8px white;
   padding: 10px;
   border-radius: 20px;
   display: flex;
@@ -263,6 +264,8 @@ h1 {
 .aqiModal__title {
   font-size: 2rem;
   font-weight: bold;
+  width: 100%;
+  text-align: center;
 }
 
 .aqiModal__aqi {
@@ -271,16 +274,18 @@ h1 {
 
 .aqiModal__values {
   width: 100%;
-  border: 1px solid red;
+  border-radius: 20px;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.5);
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   padding: 10px 5px;
 }
 
 .aqiModal__value {
-  /* border: 1px solid blue; */
-  width: 10%;
+  min-width: 25%;
+  width: 25%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -289,12 +294,13 @@ h1 {
 }
 
 .pollutant__number {
-  font-size: 2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
-.pollutant__name,
 .aqiModal__disclaimer {
-  font-size: 1rem;
+  font-size: 0.9rem;
+  font-style: italic;
 }
 
 footer {
@@ -308,7 +314,8 @@ footer {
   text-decoration: underline;
 }
 
-.creditsModal {
+.creditsModal,
+.aqiOverlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -318,6 +325,7 @@ footer {
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
 }
 
 .creditsWrapper {
@@ -387,6 +395,10 @@ footer {
   .weatherInfo__more {
     align-items: flex-end;
   }
+
+  .aqiModal {
+    width: 50%;
+  }
 }
 
 /* TABLET */
@@ -406,5 +418,9 @@ footer {
 
   .weatherInfo__more {
     align-items: flex-end;
+  }
+
+  .aqiModal {
+    width: 75%;
   }
 }
