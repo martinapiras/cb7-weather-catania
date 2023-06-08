@@ -390,5 +390,4 @@ const pollutantsGen = (data) => {
   valueWrapperEl.append(pollutantNumberEl, pollutantNameEl);
 
   return valueWrapperEl;
-  // }
 };
