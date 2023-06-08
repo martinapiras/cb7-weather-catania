@@ -5,6 +5,8 @@ export const cityListGen = (city) => {
   const optionEl = cE("option");
 
   optionEl.setAttribute("value", city.value);
+  optionEl.setAttribute("lat", city.lat);
+  optionEl.setAttribute("lon", city.lon);
   optionEl.textContent = city.name;
   optionEl.className = "city";
 
@@ -35,7 +37,7 @@ export const weatherGen = (cityData) => {
   locationImgEl.src = "./assets/location-pin.svg";
   locationImgEl.alt = "location";
   cityNameEl.className = "cityName";
-  cityNamePEl.textContent = cityData.name;
+  cityNamePEl.textContent = cityData[0].name;
   dateInfoEl.className = "dateInfo";
   clockIconEl.className = "clockIcon";
   clockImgEl.src = "./assets/clock.svg";
@@ -76,45 +78,67 @@ export const weatherGen = (cityData) => {
   const humidityIconEl = cE("div");
   const humidityImgEl = cE("img");
   const humidityEl = cE("p");
+  const humidityTitleEl = cE("span");
+  const humidityValueEl = cE("span");
+  const aqiWrapperEl = cE("div");
+  const aqiIconEl = cE("div");
+  const aqiImgEl = cE("img");
+  const aqiEl = cE("p");
+  const aqiTitleEl = cE("span");
+  const aqiValueEl = cE("span");
   const windWrapperEl = cE("div");
   const windIconEl = cE("div");
   const windImgEl = cE("img");
   const windEl = cE("p");
+  const windTitleEl = cE("span");
+  const windValueEl = cE("span");
 
   weatherInfoEl.className = "weatherInfo";
   weatherInfoMainEl.className = "weatherInfo__main";
   weatherTypeEl.className = "weatherType";
   weatherIconContainerEl.className = "weatherIcon";
-  weatherIconEl.src = `https://openweathermap.org/img/wn/${cityData.weather[0].icon}@4x.png`;
-  weatherIconEl.alt = cityData.weather[0].description;
+  weatherIconEl.src = `https://openweathermap.org/img/wn/${cityData[0].weather[0].icon}@4x.png`;
+  weatherIconEl.alt = cityData[0].weather[0].description;
   weatherTypePEl.textContent =
-    cityData.weather[0].description[0].toUpperCase() +
-    cityData.weather[0].description.substring(1);
+    cityData[0].weather[0].description[0].toUpperCase() +
+    cityData[0].weather[0].description.substring(1);
   temperatureEl.className = "temperature";
-  temperatureEl.textContent = parseInt(cityData.main.temp) + "°C";
+  temperatureEl.textContent = parseInt(cityData[0].main.temp) + "°C";
   temperatureMoreEl.className = "temperature__more";
   tempSeparatorEl.textContent = "|";
   tempSeparator2El.textContent = "|";
   minTempEl.className = "temperature-min";
-  minTempEl.innerHTML = `Min: <br> ${parseInt(cityData.main.temp_min)}°C`;
+  minTempEl.innerHTML = `<b>Min:</b><br>${parseInt(
+    cityData[0].main.temp_min
+  )}°C`;
   maxTempEl.className = "temperature-max";
-  maxTempEl.innerHTML = `Max: <br> ${parseInt(cityData.main.temp_max)}°C`;
+  maxTempEl.innerHTML = `<b>Max:</b><br>${parseInt(
+    cityData[0].main.temp_max
+  )}°C`;
   feelsLikeEl.className = "temperature-feelsLike";
-  feelsLikeEl.innerHTML = `Feels like: <br> ${parseInt(
-    cityData.main.feels_like
+  feelsLikeEl.innerHTML = `<b>Feels like:</b><br>${parseInt(
+    cityData[0].main.feels_like
   )}°C`;
   weatherMoreEl.className = "weatherInfo__more";
   humidityWrapperEl.className = "humidity";
   humidityIconEl.className = "humidityIcon";
   humidityImgEl.src = "./assets/humidity.svg";
   humidityImgEl.alt = "humidity";
-  humidityEl.textContent = `Humidity: ${parseInt(cityData.main.humidity)}%`;
+  humidityTitleEl.textContent = "Humidity:";
+  humidityValueEl.textContent = `${parseInt(cityData[0].main.humidity)}%`;
+  aqiWrapperEl.className = "aqi";
+  aqiIconEl.className = "aqiIcon";
+  aqiImgEl.src = "./assets/aqi.svg";
+  aqiImgEl.alt = "AQI";
+  aqiTitleEl.textContent = "AQI:";
+  aqiValueEl.textContent = `${parseInt(cityData[1].list[0].main.aqi)}`;
   windWrapperEl.className = "wind";
   windIconEl.className = "windIcon";
   windImgEl.src = "./assets/wind.svg";
   windImgEl.alt = "wind";
-  windEl.textContent = `Wind: ${parseFloat(
-    (cityData.wind.speed * 3.6).toFixed(2)
+  windTitleEl.textContent = "Wind:";
+  windValueEl.textContent = `${parseFloat(
+    (cityData[0].wind.speed * 3.6).toFixed(2)
   )} km/h`;
 
   weatherIconContainerEl.appendChild(weatherIconEl);
@@ -128,11 +152,21 @@ export const weatherGen = (cityData) => {
   );
   weatherInfoMainEl.append(weatherTypeEl, temperatureEl, temperatureMoreEl);
   humidityIconEl.appendChild(humidityImgEl);
+  humidityEl.append(humidityTitleEl, humidityValueEl);
   humidityWrapperEl.append(humidityIconEl, humidityEl);
+  aqiIconEl.appendChild(aqiImgEl);
+  aqiWrapperEl.append(aqiIconEl, aqiEl);
+  aqiEl.append(aqiTitleEl, aqiValueEl);
   windIconEl.appendChild(windImgEl);
+  windEl.append(windTitleEl, windValueEl);
   windWrapperEl.append(windIconEl, windEl);
-  weatherMoreEl.append(humidityWrapperEl, windWrapperEl);
+  weatherMoreEl.append(humidityWrapperEl, aqiWrapperEl, windWrapperEl);
   weatherInfoEl.append(weatherInfoMainEl, weatherMoreEl);
+
+  // shows AQI info //
+  // aqiWrapperEl.addEventListener("click", () =>
+  //   qS(".page").append(aqiModalGen(cityData))
+  // );
 
   //   sun info   //
   const sunInfoEl = cE("div");
@@ -150,14 +184,14 @@ export const weatherGen = (cityData) => {
   sunriseIconEl.alt = "sunrise";
   sunriseTimeEl.className = "sunriseTime";
   sunriseTimeEl.textContent = new Date(
-    cityData.sys.sunrise * 1000
+    cityData[0].sys.sunrise * 1000
   ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   sunsetEl.className = "sunset";
   sunsetIconEl.src = "./assets/sunset.svg";
   sunsetIconEl.alt = "sunset";
   sunsetTimeEl.className = "sunsetTime";
   sunsetTimeEl.textContent = new Date(
-    cityData.sys.sunset * 1000
+    cityData[0].sys.sunset * 1000
   ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   dividerEl.className = "divider";
 
@@ -167,7 +201,7 @@ export const weatherGen = (cityData) => {
   sunInfoEl.append(sunriseEl, dividerEl, sunsetEl);
 
   // changes widget background based on current weather
-  const weatherIcon = cityData.weather[0].icon;
+  const weatherIcon = cityData[0].weather[0].icon;
   switch (weatherIcon) {
     case "01d":
       wrapperEl.style.backgroundImage = "url('../assets/bg/clear-sky-day.jpg')";
@@ -228,6 +262,7 @@ export const creditsGen = (parent) => {
   const credits2El = cE("p");
   const credits3El = cE("p");
   const credits4El = cE("p");
+  const credits5El = cE("p");
 
   wrapperEl.className = "creditsModal";
   creditsEl.className = "creditsWrapper";
@@ -242,15 +277,48 @@ export const creditsGen = (parent) => {
     'Location and drop icons by <a href="https://orchid.software/en/docs/icons/?ref=svgrepo.com" target="_blank">Orchid</a> in MIT License via <a href="https://www.svgrepo.com/" target="_blank">SVG Repo</a>';
   credits4El.className = "credits";
   credits4El.innerHTML =
-    'Wind icon by <a href="https://github.com/framework7io/framework7-icons?ref=svgrepo.com" target="_blank">Framework7io</a> in MIT License via <a href="https://www.svgrepo.com/" target="_blank">SVG Repo</a>';
+    'Wind icon by <a href="https://github.com/32pixelsCo/zest-icons/blob/master/packages/zest-free/LICENSE.md?ref=svgrepo.com" target="_blank">Zest</a> in MIT License via <a href="https://www.svgrepo.com/" target="_blank">SVG Repo</a>';
+  credits5El.className = "credits";
+  credits5El.innerHTML =
+    'Leaf icon by <a href="https://github.com/jtblabs/jtb-icons?ref=svgrepo.com" target="_blank">Jtblabs</a> in MIT License via <a href="https://www.svgrepo.com/" target="_blank">SVG Repo</a>';
 
-  creditsEl.append(credits1El, credits2El, credits3El, credits4El);
+  creditsEl.append(credits1El, credits2El, credits3El, credits4El, credits5El);
   wrapperEl.appendChild(creditsEl);
   wrapperEl.addEventListener("click", (e) => {
     if (e.target.className === "creditsModal") {
       parent.removeChild(wrapperEl);
     }
   });
+
+  return wrapperEl;
+};
+
+export const aqiModalGen = (cityData) => {
+  const wrapperEl = cE("div");
+  const titleEl = cE("p");
+  const valueEl = cE("h3");
+  const descriptionEl = cE("p");
+  const valuesWrapperEl = cE("div");
+  const disclaimerEl = cE("p");
+
+  wrapperEl.className = "aqiModal";
+  titleEl.className = "aqiModal__title";
+  titleEl.textContent = "Air Quality Index (AQI)";
+  valueEl.className = "aqiModal__aqi";
+  valueEl.textContent = cityData[1].list[0].main.aqi;
+  descriptionEl.className = "aqiModal__description";
+  valuesWrapperEl.className = "aqiModal__values";
+  disclaimerEl.className = "aqiModal__disclaimer";
+  disclaimerEl.textContent = " *Pollutant concentration expressed in μg/m3.";
+
+  // valuesWrapperEl.append(pollutantsGen());
+  wrapperEl.append(
+    titleEl,
+    valueEl,
+    descriptionEl,
+    valuesWrapperEl,
+    disclaimerEl
+  );
 
   return wrapperEl;
 };

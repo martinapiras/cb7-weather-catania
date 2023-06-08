@@ -73,6 +73,7 @@ h1 {
 .locationIcon img,
 .clockIcon img,
 .humidityIcon img,
+.aqiIcon img,
 .windIcon img,
 .sunrise img,
 .sunset img {
@@ -163,7 +164,8 @@ h1 {
   justify-content: center;
 }
 
-.temperature__more {
+.temperature__more,
+.weatherInfo__more {
   width: 100%;
   height: 20%;
   padding: 10px;
@@ -175,7 +177,12 @@ h1 {
 }
 
 .temperature__more > * {
-  width: 25%;
+  width: 24%;
+  text-align: center;
+}
+
+.temperature-feelsLike {
+  width: 26%;
 }
 
 .temperature__more p:nth-child(2),
@@ -183,21 +190,24 @@ h1 {
   font-size: 1.5rem;
 }
 
-.weatherInfo__more {
-  width: 100%;
-  height: 15%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  background-color: transparent;
-  font-size: 1.2rem;
+.aqi {
+  cursor: pointer;
 }
 
 .humidity,
-.wind {
+.wind,
+.aqi {
+  width: 33.33%;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
+}
+
+.humidity span:first-child,
+.wind span:first-child,
+.aqi span:first-child {
+  display: none;
 }
 
 .sunInfo {
@@ -228,6 +238,63 @@ h1 {
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.5);
   box-shadow: 2px 2px 8px black;
+}
+
+/* AQI modal */
+.aqiModal {
+  border: 2px solid red;
+  width: 90%;
+  height: 40%;
+  background-color: white;
+  padding: 10px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.2rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.aqiModal__title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.aqiModal__aqi {
+  font-size: 3rem;
+}
+
+.aqiModal__values {
+  width: 100%;
+  border: 1px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 5px;
+}
+
+.aqiModal__value {
+  /* border: 1px solid blue; */
+  width: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.pollutant__number {
+  font-size: 2rem;
+}
+
+.pollutant__name,
+.aqiModal__disclaimer {
+  font-size: 1rem;
 }
 
 footer {
@@ -290,13 +357,35 @@ footer {
     height: 30%;
   }
 
+  .temperature__more > * {
+    width: 25%;
+  }
+
   .weatherInfo__more {
     height: 20%;
+  }
+
+  .humidity span:first-child,
+  .wind span:first-child,
+  .aqi span:first-child {
+    display: inline;
+    font-weight: bold;
+  }
+
+  .humidity p,
+  .wind p,
+  .aqi p {
+    display: flex;
+    gap: 10px;
   }
 
   .creditsWrapper {
     width: 50%;
     text-align: center;
+  }
+
+  .weatherInfo__more {
+    align-items: flex-end;
   }
 }
 
@@ -308,6 +397,14 @@ footer {
   }
 
   .widgetWrapper {
-    width: 80%;
+    width: 90%;
+  }
+
+  .temperature__more > * {
+    width: 25%;
+  }
+
+  .weatherInfo__more {
+    align-items: flex-end;
   }
 }
