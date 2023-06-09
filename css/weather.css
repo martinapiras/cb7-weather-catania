@@ -126,12 +126,12 @@
 }
 
 .temperature__more > * {
-  width: 24%;
+  width: 23%;
   text-align: center;
 }
 
 .temperature-feelsLike {
-  width: 26%;
+  width: 27%;
 }
 
 .temperature__more p:nth-child(2),
