@@ -204,63 +204,59 @@ export const weatherGen = (cityData) => {
   const weatherIcon = cityData[0].weather[0].icon;
   switch (weatherIcon) {
     case "01d":
-      wrapperEl.style.backgroundImage = "url('../assets/bg/clear-sky-day.jpg')";
+      wrapperEl.style.backgroundImage = "url('assets/bg/clear-sky-day.jpg')";
       document.body.style.backgroundImage =
-        "url('../assets/bg/clear-sky-day.jpg')";
+        "url('assets/bg/clear-sky-day.jpg')";
       break;
 
     case "01n":
-      wrapperEl.style.backgroundImage =
-        "url('../assets/bg/clear-sky-night.jpg')";
+      wrapperEl.style.backgroundImage = "url('assets/bg/clear-sky-night.jpg')";
       document.body.style.backgroundImage =
-        "url('../assets/bg/clear-sky-night.jpg')";
+        "url('assets/bg/clear-sky-night.jpg')";
       break;
 
     case "02d":
     case "03d":
     case "04d":
-      wrapperEl.style.backgroundImage = "url('../assets/bg/clouds-day.jpg')";
-      document.body.style.backgroundImage =
-        "url('../assets/bg/clouds-day.jpg')";
+      wrapperEl.style.backgroundImage = "url('assets/bg/clouds-day.jpg')";
+      document.body.style.backgroundImage = "url('assets/bg/clouds-day.jpg')";
       break;
 
     case "02n":
     case "03n":
     case "04n":
-      wrapperEl.style.backgroundImage = "url('../assets/bg/clouds-night.jpg')";
-      document.body.style.backgroundImage =
-        "url('../assets/bg/clouds-night.jpg')";
+      wrapperEl.style.backgroundImage = "url('assets/bg/clouds-night.jpg')";
+      document.body.style.backgroundImage = "url('assets/bg/clouds-night.jpg')";
       break;
 
     case "09d":
     case "09n":
-      wrapperEl.style.backgroundImage = "url('../assets/bg/drizzle.jpg')";
-      document.body.style.backgroundImage = "url('../assets/bg/drizzle.jpg')";
+      wrapperEl.style.backgroundImage = "url('assets/bg/drizzle.jpg')";
+      document.body.style.backgroundImage = "url('assets/bg/drizzle.jpg')";
       break;
 
     case "10d":
     case "10n":
-      wrapperEl.style.backgroundImage = "url('../assets/bg/rain.jpg')";
-      document.body.style.backgroundImage = "url('../assets/bg/rain.jpg')";
+      wrapperEl.style.backgroundImage = "url('assets/bg/rain.jpg')";
+      document.body.style.backgroundImage = "url('assets/bg/rain.jpg')";
       break;
 
     case "11d":
     case "11n":
-      wrapperEl.style.backgroundImage = "url('../assets/bg/thunderstorm.jpg')";
-      document.body.style.backgroundImage =
-        "url('../assets/bg/thunderstorm.jpg')";
+      wrapperEl.style.backgroundImage = "url('assets/bg/thunderstorm.jpg')";
+      document.body.style.backgroundImage = "url('assets/bg/thunderstorm.jpg')";
       break;
 
     case "13d":
     case "13n":
-      wrapperEl.style.backgroundImage = "url('../assets/bg/snow.jpg')";
-      document.body.style.backgroundImage = "url('../assets/bg/snow.jpg')";
+      wrapperEl.style.backgroundImage = "url('assets/bg/snow.jpg')";
+      document.body.style.backgroundImage = "url('assets/bg/snow.jpg')";
       break;
 
     case "50d":
     case "50n":
-      wrapperEl.style.backgroundImage = "url('../assets/bg/7xx.jpg')";
-      document.body.style.backgroundImage = "url('../assets/bg/7xx.jpg')";
+      wrapperEl.style.backgroundImage = "url('assets/bg/7xx.jpg')";
+      document.body.style.backgroundImage = "url('assets/bg/7xx.jpg')";
       break;
   }
 
