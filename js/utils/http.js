@@ -1,4 +1,4 @@
-import API_KEY from "../../api.js";
+import API_KEY from "./api.js";
 
 export const BASE_URL = "https://api.openweathermap.org/data/2.5/";
 

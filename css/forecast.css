@@ -1,0 +1,121 @@
+.forecastWrapper {
+  display: none;
+}
+
+/*************** MEDIA QUERIES ***************/
+/* TABLET */
+@media screen and (min-width: 481px) and (max-width: 1023px) {
+  .forecastWrapper {
+    width: 80%;
+    height: 15%;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    justify-content: safe center;
+    align-items: center;
+    gap: 15px;
+    border-radius: 20px;
+    padding: 10px 20px;
+    scroll-snap-type: x mandatory;
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.5);
+    scrollbar-width: none;
+  }
+
+  .forecastWrapper::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  .forecast {
+    height: 95%;
+    min-width: 15%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    scroll-snap-align: start;
+    padding: 5px;
+  }
+
+  .forecast__icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .forecast__icon img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.5));
+  }
+
+  .forecast__temp {
+    width: fit-content;
+  }
+}
+/* END TABLET */
+
+/* DESKTOP */
+@media screen and (min-width: 1024px) {
+  .forecastWrapper {
+    width: 10%;
+    min-width: 150px;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    align-items: center;
+    gap: 15px;
+    border-radius: 20px;
+    padding: 10px 20px;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.5);
+    scrollbar-width: none;
+  }
+
+  .forecastWrapper::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  .forecast {
+    min-width: 100%;
+    height: 95%;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    scroll-snap-align: start;
+    padding: 5px;
+  }
+
+  .forecast__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+  }
+
+  .forecast__icon img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.5));
+  }
+
+  .forecast__title,
+  .forecast__temp {
+    width: 100%;
+    text-align: center;
+  }
+}

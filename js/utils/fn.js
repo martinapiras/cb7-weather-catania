@@ -200,15 +200,19 @@ export const weatherGen = (cityData) => {
 
   sunInfoEl.append(sunriseEl, dividerEl, sunsetEl);
 
-  // changes widget background based on current weather
+  // changes widget and page background based on current weather
   const weatherIcon = cityData[0].weather[0].icon;
   switch (weatherIcon) {
     case "01d":
       wrapperEl.style.backgroundImage = "url('../assets/bg/clear-sky-day.jpg')";
+      document.body.style.backgroundImage =
+        "url('../assets/bg/clear-sky-day.jpg')";
       break;
 
     case "01n":
       wrapperEl.style.backgroundImage =
+        "url('../assets/bg/clear-sky-night.jpg')";
+      document.body.style.backgroundImage =
         "url('../assets/bg/clear-sky-night.jpg')";
       break;
 
@@ -216,37 +220,47 @@ export const weatherGen = (cityData) => {
     case "03d":
     case "04d":
       wrapperEl.style.backgroundImage = "url('../assets/bg/clouds-day.jpg')";
+      document.body.style.backgroundImage =
+        "url('../assets/bg/clouds-day.jpg')";
       break;
 
     case "02n":
     case "03n":
     case "04n":
       wrapperEl.style.backgroundImage = "url('../assets/bg/clouds-night.jpg')";
+      document.body.style.backgroundImage =
+        "url('../assets/bg/clouds-night.jpg')";
       break;
 
     case "09d":
     case "09n":
       wrapperEl.style.backgroundImage = "url('../assets/bg/drizzle.jpg')";
+      document.body.style.backgroundImage = "url('../assets/bg/drizzle.jpg')";
       break;
 
     case "10d":
     case "10n":
       wrapperEl.style.backgroundImage = "url('../assets/bg/rain.jpg')";
+      document.body.style.backgroundImage = "url('../assets/bg/rain.jpg')";
       break;
 
     case "11d":
     case "11n":
       wrapperEl.style.backgroundImage = "url('../assets/bg/thunderstorm.jpg')";
+      document.body.style.backgroundImage =
+        "url('../assets/bg/thunderstorm.jpg')";
       break;
 
     case "13d":
     case "13n":
       wrapperEl.style.backgroundImage = "url('../assets/bg/snow.jpg')";
+      document.body.style.backgroundImage = "url('../assets/bg/snow.jpg')";
       break;
 
     case "50d":
     case "50n":
       wrapperEl.style.backgroundImage = "url('../assets/bg/7xx.jpg')";
+      document.body.style.backgroundImage = "url('../assets/bg/7xx.jpg')";
       break;
   }
 
@@ -293,7 +307,7 @@ export const creditsGen = (parent) => {
   return wrapperEl;
 };
 
-export const aqiModalGen = (cityData, parent) => {
+const aqiModalGen = (cityData, parent) => {
   const overlayEl = cE("div");
   const wrapperEl = cE("div");
   const titleEl = cE("p");
@@ -337,7 +351,6 @@ export const aqiModalGen = (cityData, parent) => {
   }
 
   const pollutants = cityData[1].list[0].components;
-  console.log(pollutants);
   const pollutantsArr = [{}, {}, {}, {}, {}, {}, {}, {}];
 
   Object.assign(pollutantsArr[0], { name: "CO" }, { value: pollutants.co });
@@ -352,8 +365,6 @@ export const aqiModalGen = (cityData, parent) => {
   );
   Object.assign(pollutantsArr[6], { name: "PM10" }, { value: pollutants.pm10 });
   Object.assign(pollutantsArr[7], { name: "NH3" }, { value: pollutants.nh3 });
-
-  console.log(pollutantsArr);
 
   pollutantsArr.forEach((pollutant) =>
     valuesWrapperEl.append(pollutantsGen(pollutant))
@@ -390,4 +401,35 @@ const pollutantsGen = (data) => {
   valueWrapperEl.append(pollutantNumberEl, pollutantNameEl);
 
   return valueWrapperEl;
+};
+
+export const forecastWrapperGen = () => {
+  const wrapperEl = cE("div");
+  wrapperEl.className = "forecastWrapper";
+  return wrapperEl;
+};
+
+export const forecastGen = (data) => {
+  const wrapperEl = cE("div");
+  const forecastTitleEl = cE("p");
+  const forecastIconEl = cE("div");
+  const forecastImgEl = cE("img");
+  const forecastTempEl = cE("p");
+
+  wrapperEl.className = "forecast";
+  forecastTitleEl.className = "forecast__title";
+  forecastTitleEl.textContent = new Date(data.dt * 1000).toLocaleDateString(
+    [],
+    { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }
+  );
+  forecastIconEl.className = "forecast__icon";
+  forecastImgEl.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+  forecastImgEl.alt = data.weather[0].main;
+  forecastTempEl.className = "forecast__temp";
+  forecastTempEl.textContent = `${parseInt(data.main.temp)}°C`;
+
+  forecastIconEl.appendChild(forecastImgEl);
+  wrapperEl.append(forecastTitleEl, forecastIconEl, forecastTempEl);
+
+  return wrapperEl;
 };
